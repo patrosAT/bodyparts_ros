@@ -1,0 +1,7 @@
+# Goal definition
+sensor_msgs/CompressedImage image
+---
+# Result definition
+sensor_msgs/CompressedImage mask
+---
+# Feedback definition

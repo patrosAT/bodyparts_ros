@@ -1,0 +1,8 @@
+bodyparts:
+    camera:
+        rgb: /camera/color/image_raw/compressed
+    interface:
+        topic: /bodyparts/topic
+        service: /bodyparts/service
+        action: /bodyparts/action
+    model: 101

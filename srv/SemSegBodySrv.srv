@@ -1,0 +1,5 @@
+# Request definition
+sensor_msgs/CompressedImage image
+---
+# Response definition
+sensor_msgs/CompressedImage mask
