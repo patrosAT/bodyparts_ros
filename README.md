@@ -41,13 +41,11 @@ The ros package contains 3 launch files:
 * **Serivce:** The [serivce](launch/bodyparts_service.launch) launch file starts a ros service. 
 * **Action:** The [action](launch/bodyparts_action.launch) launch file starts a ros action server.
 
-## RefineNet
+## Acknowledgments
 
-The ROS node is powered by the pytorch implementation of [DrSleep](https://github.com/DrSleep). For more information on RefineNet please refer to the original [paper](https://arxiv.org/abs/1611.06612) or the following github [repository](https://github.com/DrSleep/light-weight-refinenet)
+The ROS node is powered by the pytorch implementation of [DrSleep](https://github.com/DrSleep). For more information on RefineNet please refer to the original [paper](https://arxiv.org/abs/1611.06612) or the following [github repository](https://github.com/DrSleep/light-weight-refinenet)
 
 ## License
 
 * **Academic:** The project is licensed under the 3-clause BSD License.
 * **Commercial:** Please contact the author.
-
-
