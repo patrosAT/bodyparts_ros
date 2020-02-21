@@ -2,8 +2,8 @@
 
 This is a ROS implementation of the RefineNet Neural Network trained on the bodyparts dataset.
 
-**Input:** RGB image: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
-**Output:** Mask: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html) indicating the bodyparts (0 for background, 1 to 6 for the individual bodyparts)
+* **Input:** RGB image: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html).
+* **Output:** Mask: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html) indicating the bodyparts (0 for background, 1 to 6 for the individual bodyparts).
 
 ## Getting Started
 
@@ -47,7 +47,7 @@ The ROS node is powered by the pytorch implementation of [DrSleep](https://githu
 
 ## License
 
-**Academic:** The project is licensed under the 3-clause BSD License
-**Commercial:** Please contact the author
+* **Academic:** The project is licensed under the 3-clause BSD License.
+* **Commercial:** Please contact the author.
 
 
