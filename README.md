@@ -9,7 +9,7 @@ This is a ROS implementation of the RefineNet Neural Network trained on the body
 
 ### Dependencies
 
-The models have been tested with Python 3.6.
+The models have been tested with Python 2.7 and 3.6.
  
 #### Python3 / pip3
 ```
@@ -23,6 +23,13 @@ rospy
 actionlib
 sensor_msgs
 cv_bridge
+```
+
+### Bilding
+
+To maximize performance, use the 'release' build mode>
+```
+catkin_make -DCMAKE_BUILD_TYPE=Release
 ```
 
 ### Configuration

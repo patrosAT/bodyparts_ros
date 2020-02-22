@@ -19,19 +19,19 @@ class Bodyparts:
         self.cam_rgb = rospy.get_param('/bodyparts/camera/rgb')
         self.interface = rospy.get_param('/bodyparts/interface/service')
         self.model_type = rospy.get_param('/bodyparts/model')
-        self.cpu = rospy.get_param('/egohands/gpu')
+        self.gpu = rospy.get_param('/bodyparts/gpu')
 
         # Init
         self.bridge = cv_bridge.CvBridge()
         if(self.model_type == 50):
-            self.model = rf_lw50(7, pretrained=True).eval().cuda()
+            self.model = rf_lw50(7, pretrained=True).eval().cuda(self.gpu)
         elif(self.model_type == 101):
-            self.model = rf_lw101(7, pretrained=True).eval().cuda()
+            self.model = rf_lw101(7, pretrained=True).eval().cuda(self.gpu)
         elif(self.model_type == 152):
-            self.model = rf_lw152(7, pretrained=True).eval().cuda()
+            self.model = rf_lw152(7, pretrained=True).eval().cuda(self.gpu)
         else:
             raise KeyError('Wrong model type -> correct config file')
-        torch.cuda.set_device(self.cpu)
+        torch.cuda.set_device(self.gpu)
 
         # Service
         self.pub_mask = rospy.Service(self.interface, SemSegBodySrv, self._callback)
@@ -49,7 +49,7 @@ class Bodyparts:
         with torch.no_grad():
             image_tensor = torch.tensor(prepare_img(image).transpose(2,0,1)[None]).float()
             
-            image_input = image_tensor.cuda()
+            image_input = image_tensor.cuda(self.gpu)
 
             mask = self.model(image_input)[0].data.cpu().numpy().transpose(1,2,0)
             mask = cv2.resize(mask, image.shape[:2][::-1], interpolation=cv2.INTER_CUBIC)
