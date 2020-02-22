@@ -32,6 +32,7 @@ The initial setup can be changed by adapting the [bodyparts.yaml](cfg/bodyparts.
 * **topic:** Topic the publisher node is publishing to.
 * **service:** Topic the service node is subcribing & publishing to.
 * **action:** Topic the action node is subcribing & publishing to.
+* **gpu:** Number of the gpu.
 * **model:** Number of NN-layers. Possible options are '50', '101', and '152'.
 
 ### Launch

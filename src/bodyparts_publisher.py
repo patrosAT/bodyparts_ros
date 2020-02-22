@@ -19,6 +19,7 @@ class Bodyparts:
         self.cam_rgb = rospy.get_param('/bodyparts/camera/rgb')
         self.interface = rospy.get_param('/bodyparts/interface/topic')
         self.model_type = rospy.get_param('/bodyparts/model')
+        self.cpu = rospy.get_param('/egohands/gpu')
 
         # Init
         self.bridge = cv_bridge.CvBridge()
@@ -30,6 +31,7 @@ class Bodyparts:
             self.model = rf_lw152(7, pretrained=True).eval().cuda()
         else:
             raise KeyError('Wrong model type -> correct config file')
+        torch.cuda.set_device(self.cpu)
 
         # Publisher
         self.pub_mask = rospy.Publisher(self.interface, CompressedImage, queue_size=1)

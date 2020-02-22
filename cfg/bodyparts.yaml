@@ -5,4 +5,5 @@ bodyparts:
         topic: /bodyparts/topic
         service: /bodyparts/service
         action: /bodyparts/action
+    gpu: 0
     model: 101
