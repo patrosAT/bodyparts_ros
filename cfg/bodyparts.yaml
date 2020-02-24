@@ -1,9 +1,12 @@
 bodyparts:
     camera:
-        rgb: /camera/color/image_raw/compressed
+        topic: /camera/color/image_raw/compressed
     interface:
         topic: /bodyparts/topic
         service: /bodyparts/service
         action: /bodyparts/action
+    visualization: 
+        topic: /bodyparts/visualization
+        activated: False
     gpu: 0
-    model: 101
+    model: 50

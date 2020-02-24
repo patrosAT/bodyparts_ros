@@ -7,7 +7,9 @@ import torch
 # Ros
 import rospy
 import cv_bridge
+import ros_numpy
 import actionlib
+from sensor_msgs.msg import Image, CompressedImage
 # Ros bodyparts
 from bodyparts_ros.msg import SemSegBodyActAction, SemSegBodyActResult
 from helper_refinenet.resnet import rf_lw50, rf_lw101, rf_lw152
@@ -17,13 +19,19 @@ from helper_refinenet.helpers import prepare_img
 class Bodyparts:
     def __init__(self):
         # Parameter
-        self.cam_rgb = rospy.get_param('/bodyparts/camera/rgb')
-        self.interface = rospy.get_param('/bodyparts/interface/action')
-        self.model_type = rospy.get_param('/bodyparts/model')
+        self.camera_topic = rospy.get_param('/bodyparts/camera/topic')
+        self.interface_topic = rospy.get_param('/bodyparts/interface/action')
+        self.visualization_topic = rospy.get_param('/bodyparts/visualization/topic')
+        self.visualization_activated = rospy.get_param('/bodyparts/visualization/activated')
         self.gpu = rospy.get_param('/bodyparts/gpu')
+        self.model_type = rospy.get_param('/bodyparts/model')
 
         # Init
+        # -- Bridge & cuda
         self.bridge = cv_bridge.CvBridge()
+        torch.cuda.set_device(self.gpu)
+
+        # -- Model
         if(self.model_type == 50):
             self.model = rf_lw50(7, pretrained=True).eval().cuda(self.gpu)
         elif(self.model_type == 101):
@@ -32,11 +40,15 @@ class Bodyparts:
             self.model = rf_lw152(7, pretrained=True).eval().cuda(self.gpu)
         else:
             raise KeyError('Wrong model type -> correct config file')
-        torch.cuda.set_device(self.gpu)
 
         # Action server
-        self.server = actionlib.SimpleActionServer(self.interface, SemSegBodyActAction, self._callback, False)
+        # -- Mask
+        self.server = actionlib.SimpleActionServer(self.interface_topic, SemSegBodyActAction, self._callback, False)
         self.server.start()
+
+        # -- Visualization
+        if self.visualization_activated:
+            self.pub_visualization = rospy.Publisher(self.visualization_topic, Image, queue_size=1)
 
         # Feedback
         print("Body segmentation action server up and running")
@@ -46,17 +58,26 @@ class Bodyparts:
 
         t_start = rospy.get_time()
 
+        # Get image
         image = cv2.cvtColor(self.bridge.compressed_imgmsg_to_cv2(goal.image), cv2.COLOR_BGR2RGB)
-        
+                
+        # Calculate mask
         with torch.no_grad():
             image_tensor = torch.tensor(prepare_img(image).transpose(2,0,1)[None]).float()
-            
             image_input = image_tensor.cuda(self.gpu)
 
             mask = self.model(image_input)[0].data.cpu().numpy().transpose(1,2,0)
             mask = cv2.resize(mask, image.shape[:2][::-1], interpolation=cv2.INTER_CUBIC)
             mask = mask.argmax(axis=2).astype(np.uint8)
         
+        # Visualize results
+        if self.visualization_activated:
+            image[:,:,0][mask == 0] = 0
+            image[:,:,1][mask == 0] = 0
+            image[:,:,2][mask == 0] = 0
+            self.pub_visualization.publish(ros_numpy.msgify(Image, image, encoding='8UC3'))
+        
+        # Publish results
         print('Body detection successful. Current Hz-rate:\t' + str(1/(rospy.get_time() - t_start)))
         self.server.set_succeeded(SemSegBodyActResult(mask=self.bridge.cv2_to_compressed_imgmsg(mask)))
 

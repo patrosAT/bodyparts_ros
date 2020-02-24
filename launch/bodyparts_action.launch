@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <launch>
   <rosparam command="load" file="$(find bodyparts_ros)/cfg/bodyparts.yaml" />
   <node name="bodyparts_action" pkg="bodyparts_ros" type="bodyparts_action.py" output="screen" />

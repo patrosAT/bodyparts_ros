@@ -1,48 +1,74 @@
-# ROS node for real-time bodyparts detection
+# ROS node for real-time bodyparts detection #
 
 This is a ROS implementation of the RefineNet Neural Network trained on the bodyparts dataset.
 
-* **Input:** RGB image: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
-* **Output:** Mask: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html) indicating the bodyparts (0 for background, 1 to 6 for the individual bodyparts)
+#### Input ####
 
-## Getting Started
+**RGB compressed image:** [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
 
-### Dependencies
+#### Output ####
+
+**Compressed mask:** [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html) (0 indicates background, 1 to 6 the individual bodyparts)
+
+## Getting Started ##
+
+### Dependencies ###
 
 The models have been tested with Python 2.7 and 3.6.
+
+#### Hardware ####
+
+* RGBD Camera
+* *Recommended:* GPU >= 2000MiB
  
-#### Python3 / pip3
+#### Python3 / pip3 ####
 ```
 numpy
 cv2
 torch
 ```
-#### Ros
+#### Ros ####
 ```
 rospy
 actionlib
 sensor_msgs
 cv_bridge
+ros_numpy
 ```
 
-### Bilding
+### Bilding ###
 
-To maximize performance, use the 'release' build mode>
+*Optional:* To maximize performance, use the 'release' build mode:
 ```
 catkin_make -DCMAKE_BUILD_TYPE=Release
 ```
 
-### Configuration
+### Configuration ###
 
 The initial setup can be changed by adapting the [bodyparts.yaml](cfg/bodyparts.yaml) file:
-* **rgb:** Camera topic the publisher node is subcribing to.
-* **topic:** Topic the publisher node is publishing to.
-* **service:** Topic the service node is subcribing & publishing to.
-* **action:** Topic the action node is subcribing & publishing to.
-* **gpu:** Number of the gpu.
-* **model:** Number of NN-layers. Possible options are '50', '101', and '152'.
 
-### Launch
+#### Camera ####
+* **topic:** Rostopic the publisher node is subcribing to.
+
+#### Interfaces ####
+* **topic:** Rostopic the publisher node is publishing to *(please do not change)*.
+* **service:** Rosservice for interacting with the service node *(please do not change)*.
+* **action:** Rostopic for interacting with the action node *(please do not change)*.
+
+#### Visualization ####
+
+The visualization mode published the original image with the background blacked out. Please be aware that turing on the visualization increases computing time and network utilization substantially.
+
+* **topic:** Topic the node is publishing to.
+* **activated:** Turn on/off visualization: *use keywords "on" or "off"*.
+
+#### GPU ###
+* **gpu:** Number of the gpu.
+
+#### Model ###
+* **model:** Number of NN-layers: *use keywords "50", "101" or "152"*
+
+### Launch ###
 
 The ros package contains 3 launch files:
 * **Publisher:** The [publisher](launch/bodyparts_publisher.launch) launch file starts a ros node that published a new mask every time a new rgb image is published.
@@ -55,5 +81,5 @@ The ROS node is powered by the pytorch implementation of [DrSleep](https://githu
 
 ## License
 
-* **Academic:** The project is licensed under the 3-clause BSD License.
-* **Commercial:** Please contact the author.
+* **Academic:** This project is licensed under the 3-clause BSD License.
+* **Commercial:** This project is licensed under the 3-clause BSD License. The underlying resouced might use different licence models. Contanct the respective authors for more information.
