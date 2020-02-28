@@ -77,7 +77,7 @@ class Bodyparts:
         
         # Publish results
         print('Body detection successful. Current Hz-rate:\t' + str(1/(rospy.get_time() - t_start)))
-        return SemSegBodySrvResponse(mask=self.bridge.cv2_to_compressed_imgmsg(mask))
+        return SemSegBodySrvResponse(mask=self.bridge.cv2_to_compressed_imgmsg(mask, dst_format='png'))
 
 
 if __name__ == '__main__':
