@@ -81,5 +81,5 @@ The ROS node is powered by the pytorch implementation of [DrSleep](https://githu
 
 ## License
 
-* **Academic:** This project is licensed under the 3-clause BSD License.
-* **Commercial:** This project is licensed under the 3-clause BSD License. The underlying resouced might use different licence models. Contanct the respective authors for more information.
+* **Academic:** This project is licensed under the 4-clause BSD License.
+* **Commercial:** Please contact the author.
