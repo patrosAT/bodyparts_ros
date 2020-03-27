@@ -1,6 +1,14 @@
 # ROS node for real-time bodyparts detection #
 
-This is a ROS implementation of the RefineNet Neural Network trained on the bodyparts dataset.
+This is a ROS implementation of the light-weight RefineNet neural network trained on the bodyparts data set. The NN is capable of detecting human body parts and can differentiate between heads, torsos, upper arms, lower arms, upper legs, and lower legs with a mean intersection-over-union (IoU) score of 0.649 [Nek18](https://github.com/DrSleep/light-weight-refinenet).
+
+This node is part of a larger project with the objective to enable object-independent human-to-robot handovers using robotic vision. The code for this project can be found [here](https://github.com/patrosAT/human_robot_handover_ros). 
+
+** Example from a frontal perspective (full body): **
+<img src="./imgs/bodyFront.png" width="600"/>
+
+** Example from a lateral perspective (arm and hand only): **
+<img src="./imgs/bodyFront.png" width="600"/>
 
 #### Input ####
 
