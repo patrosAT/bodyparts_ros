@@ -1,59 +1,44 @@
 # ROS node for real-time bodyparts detection #
 
-This is a ROS implementation of the light-weight RefineNet neural network trained on the bodyparts data set. The NN is capable of detecting human body parts and can differentiate between heads, torsos, upper arms, lower arms, upper legs, and lower legs with a mean intersection-over-union (IoU) score of 0.649 [Nek18](https://github.com/DrSleep/light-weight-refinenet).
+This is a ROS implementation of the light-weight RefineNet neural network trained on the bodyparts data set. The NN is capable of detecting human body parts and can differentiate between heads, torsos, upper arms, lower arms, upper legs, and lower legs with a mean intersection-over-union (IoU) score of 0.649 ([Nek18](https://github.com/DrSleep/light-weight-refinenet)).
 
-This node is part of a larger project with the objective to enable object-independent human-to-robot handovers using robotic vision. The code for this project can be found [here](https://github.com/patrosAT/human_robot_handover_ros). 
+This node is part of a larger project with the objective to enable object-independent human-to-robot handovers using robotic vision. The code for this project can be found [here](https://github.com/patrosAT/human_robot_handover_ros).
 
-** Example from a frontal perspective (full body): **
-<img src="./imgs/bodyFront.png" width="600"/>
+The node can be implemented as publisher, service, or action. See below for more inforamtion.
 
-** Example from a lateral perspective (arm and hand only): **
-<img src="./imgs/bodyFront.png" width="600"/>
+* **Input:** RGB image: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
+* **Output:** Mask (0 background, 1-6 bodyparts): [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
 
-#### Input ####
+<div>
+<b>Example from a frontal perspective (full body):</b>
+<div style="margin-top:5px; margin-bottom:10px; text-align:center"><img src="./imgs/bodyFront.png" width="500"/></div>
+</div>
 
-**RGB compressed image:** [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
+<div>
+<b>Example from a lateral perspective (arm and hand only):</b>
+<div style="margin-top:5px; margin-bottom:10px; text-align:center"><img src="./imgs/bodySide.png" width="500"/></div>
+</div>
 
-#### Output ####
-
-**Compressed mask:** [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html) (0 indicates background, 1 to 6 the individual bodyparts)
 
 ## Getting Started ##
 
-### Dependencies ###
+The code have been tested with Python 2.7 and 3.6.
 
-The models have been tested with Python 2.7 and 3.6.
+### Hardware ###
 
-#### Hardware ####
+* RGB camera (e.g. realsense)
+* *Recommended:* GPU >= 2 GB
 
-* RGBD Camera
-* *Recommended:* GPU >= 2000MiB
- 
-#### Python3 / pip3 ####
-```
-numpy
-cv2
-torch
-```
-#### Ros ####
-```
-rospy
-actionlib
-sensor_msgs
-cv_bridge
-ros_numpy
-```
+### Software ###
 
-### Bilding ###
+**NOT AVAILABLE > COMMING SOON**
 
-*Optional:* To maximize performance, use the 'release' build mode:
-```
-catkin_make -DCMAKE_BUILD_TYPE=Release
-```
+* Python 2.x: see [requirements.txt](requirements.txt)
+* Python 3.x: see [requirements3.txt](requirements3.txt)
 
-### Configuration ###
+## Configuration ##
 
-The initial setup can be changed by adapting the [bodyparts.yaml](cfg/bodyparts.yaml) file:
+The initial configuration can be changed by adapting the [bodyparts.yaml](cfg/bodyparts.yaml) file:
 
 #### Camera ####
 * **topic:** Rostopic the publisher node is subcribing to.
