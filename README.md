@@ -9,70 +9,74 @@ The node can be implemented as publisher, service, or action. See below for more
 * **Input:** RGB image: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
 * **Output:** Mask (0 background, 1-6 bodyparts): [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
 
-<div>
-<b>Example from a frontal perspective (full body):</b>
-<div style="margin-top:5px; margin-bottom:10px; text-align:center"><img src="./imgs/bodyFront.png" width="500"/></div>
-</div>
+#### Example from a frontal perspective (full body): ####
+<div style="text-align:center"><img src="./imgs/bodyFront.png" width="500"/></div>
 
-<div>
-<b>Example from a lateral perspective (arm and hand only):</b>
-<div style="margin-top:5px; margin-bottom:10px; text-align:center"><img src="./imgs/bodySide.png" width="500"/></div>
-</div>
+#### Example from a lateral perspective (arm and hand only): ####
+<div style="text-align:center"><img src="./imgs/bodySide.png" width="500"/></div>
 
 
 ## Getting Started ##
 
 The code have been tested with Python 2.7 and 3.6.
 
+
 ### Hardware ###
 
-* RGB camera (e.g. realsense)
-* *Recommended:* GPU >= 2 GB
+* RGB camera *(for this project an [realsense D435](https://www.intelrealsense.com/depth-camera-d435/) was used)*
+* GPU >= 2 GB *(recommended)*
+
 
 ### Software ###
 
-**NOT AVAILABLE > COMMING SOON**
+**ATTENTION: This package requires the [ROS](https://www.ros.org/) operating system!**
 
 * Python 2.x: see [requirements.txt](requirements.txt)
 * Python 3.x: see [requirements3.txt](requirements3.txt)
+
+
+### Launch ###
+
+The ros package contains 3 launch files: publisher, service an action. 
+
+* **[Publisher](launch/bodyparts_publisher.launch):** Publishes a mask every time a new image is published by the camera.
+* **[Serivce](launch/bodyparts_service.launch):** Returns a mask upon service call.
+* **[Action](launch/bodyparts_action.launch):** Returns a mask upon client call.
+
+The input/output is identical for a all three nodes:
+* **Input:** RGB image: [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
+* **Output:** Mask (0 background, 1-6 bodyparts): [sensor_msgs/CompressedImage](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/CompressedImage.html)
+
 
 ## Configuration ##
 
 The initial configuration can be changed by adapting the [bodyparts.yaml](cfg/bodyparts.yaml) file:
 
-#### Camera ####
-* **topic:** Rostopic the publisher node is subcribing to.
+**Camera:** 
+* **topic:** Rostopic the publisher is subscribing to. Altering this config has no impact on the service and action nodes.
 
-#### Interfaces ####
-* **topic:** Rostopic the publisher node is publishing to *(please do not change)*.
-* **service:** Rosservice for interacting with the service node *(please do not change)*.
-* **action:** Rostopic for interacting with the action node *(please do not change)*.
+**Interfaces:**
+* **topic:** Rostopic the publisher node is publishing to.
+* **service:** Rosservice for interacting with the service node.
+* **action:** Rostopic for interacting with the action node.
 
-#### Visualization ####
+**Visualization:** The visualization mode published a color-inverted copy (BGR) of the original RGB image with the background blacked out. Please be aware that turing on the visualization increases computing time and network utilization substantially.
 
-The visualization mode published the original image with the background blacked out. Please be aware that turing on the visualization increases computing time and network utilization substantially.
+* **topic:** Rostopic the node is publishing to.
+* **activated:** Turn on/off visualization: *use only keywords **"True"** or **"False"***
 
-* **topic:** Topic the node is publishing to.
-* **activated:** Turn on/off visualization: *use keywords "on" or "off"*.
+**GPU:**
+* **gpu:** ID of the GPU (*only usable if more than one GPU is available*).
 
-#### GPU ###
-* **gpu:** Number of the gpu.
+**Model:**
+* **model:** Number of NN-layers ([RefineNet](https://arxiv.org/abs/1611.06612)): *use only keywords **"50"**, **"101"** or **"152"***
 
-#### Model ###
-* **model:** Number of NN-layers: *use keywords "50", "101" or "152"*
 
-### Launch ###
+## Acknowledgments ##
 
-The ros package contains 3 launch files:
-* **Publisher:** The [publisher](launch/bodyparts_publisher.launch) launch file starts a ros node that published a new mask every time a new rgb image is published.
-* **Serivce:** The [serivce](launch/bodyparts_service.launch) launch file starts a ros service. 
-* **Action:** The [action](launch/bodyparts_action.launch) launch file starts a ros action server.
+The ROS node is powered by the pytorch implementation of [DrSleep](https://github.com/DrSleep). For more information on RefineNet please refer to the following [paper](https://arxiv.org/abs/1611.06612) or the [github repository](https://github.com/DrSleep/light-weight-refinenet)
 
-## Acknowledgments
 
-The ROS node is powered by the pytorch implementation of [DrSleep](https://github.com/DrSleep). For more information on RefineNet please refer to the original [paper](https://arxiv.org/abs/1611.06612) or the following [github repository](https://github.com/DrSleep/light-weight-refinenet)
+## License ##
 
-## License
-
-* **Academic:** This project is licensed under the 4-clause BSD License.
-* **Commercial:** Please contact the author.
+This project is licensed under the 4-clause BSD License.
