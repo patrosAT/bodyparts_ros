@@ -60,9 +60,9 @@ The initial configuration can be changed by adapting the [bodyparts.yaml](cfg/bo
 * **service:** Rosservice for interacting with the service node.
 * **action:** Rostopic for interacting with the action node.
 
-**Visualization:** The visualization mode published a color-inverted copy (BGR) of the original RGB image with the background blacked out. Please be aware that turing on the visualization increases computing time and network utilization substantially.
+**Visualization:** The visualization mode publishes a color-inverted copy (BGR) of the original RGB image with the background blacked out. Please be aware that turing on the visualization increases computing time and network utilization substantially.
 
-* **topic:** Rostopic the node is publishing to.
+* **topic:** Rostopic the node is publishing to (visualization).
 * **activated:** Turn on/off visualization: *use only keywords **"True"** or **"False"***
 
 **GPU:**
